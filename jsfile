@@ -1,0 +1,92 @@
+
+function getUserPosition()
+{
+    return new Promise(function(resolve, reject) {
+
+        if (!navigator.geolocation) {
+            return reject(new Error('API geolocation not supported'));
+        }
+
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+
+        navigator.geolocation.getCurrentPosition(
+            // function (position) {
+            //     resolve(position);
+            // },
+            // function (error) {
+            //     reject(error);
+            // },
+            resolve,
+            reject,
+            options);
+    });
+}
+
+function onClickGeolocalizeButton()
+{
+    getUserPosition()
+        // .then(function(position) {
+        //     displayPosition(position);
+        // })
+        .then(displayPosition)
+        // .catch(function(error) {
+        //     console.error(error);
+        // });
+        .catch(console.error);
+}
+
+function displayPosition(position)
+{
+    const latContainer = document.getElementById('latitude');
+    const lngContainer = document.getElementById('longitude');
+
+    latContainer.textContent = '';
+    lngContainer.textContent = '';
+
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+
+    latContainer.textContent = lat;
+    lngContainer.textContent = lng;
+}
+
+
+const geolocalizeBtn = document.getElementById('geolocalize-btn');
+geolocalizeBtn.addEventListener('click', onClickGeolocalizeButton);
+
+
+/*
+
+function testPromise()
+{
+    return new Promise(function(resolve, reject){
+        setTimeout(() => {
+            resolve('Valeur de succès');
+          }, 300);
+    });
+}
+
+
+testPromise()
+    .then(function(result){
+        console.log(`Promesse résolue avec la valeur : ${result}`);
+    })
+    .catch(function(error){
+        console.error(error);
+    });
+
+
+
+    getUserPosition()
+        .then(function(position) {
+
+        })
+        .catch(function(error){
+
+        });
+
+    */
